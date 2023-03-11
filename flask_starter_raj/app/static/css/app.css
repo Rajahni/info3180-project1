@@ -1,0 +1,16 @@
+/* body {
+    padding-top: 5rem;
+} */
+
+form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 63%;
+    transform: translate(-50%, -35%);
+    padding: 0 6% 2% 6%;
+    background: tan;
+    box-shadow: var(--bs-gray-dark);
+  }
+  
+  
