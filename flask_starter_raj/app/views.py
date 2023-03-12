@@ -12,6 +12,8 @@ from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.utils import secure_filename
 from werkzeug.security import check_password_hash
 from app.forms import AddForm
+from app.models import Property
+from . import db
 
 ###
 # Routing for your application.
@@ -28,15 +30,63 @@ def about():
     """Render the website's about page."""
     return render_template('about.html', name="Mary Jane")
 
-@app.route('/new_property/', methods=['POST', 'GET'])
-def newp():
+@app.route('/properties')
+def properties():
+    properties = db.session.query(Property).all()
+    return render_template('properties.html', properties=properties)
+
+@app.route('/properties/create', methods=['POST', 'GET'])
+def new_property():
     addform = AddForm()
+    file_folder = app.config['UPLOAD_FOLDER']
+
     if request.method == 'POST':
     #validate on submit
         if addform.validate_on_submit():
-            pass
+            photo = addform.photo.data
+            filename = secure_filename(photo.filename)
+            photo.save(os.path.join(file_folder, filename))
+
+            property = Property(
+                addform.proptitle.data,
+                addform.description.data,
+                addform.number_of_rooms.data,
+                addform.price.data,
+                addform.location.data,
+                filename,
+                addform.number_of_bathrooms,
+                addform.property_type.data
+            )
+
+            db.session.add(property)
+            db.session.commit()
+            return redirect(url_for('properties'))
+    return render_template('new_property.html', form=addform)
+            
     """Render the website's about page."""
     return render_template('new_property.html', form=addform)
+
+@app.route('/properties/create/<filename>')
+def get_uploaded_file(filename):
+    root_dir = os.getcwd()
+    return send_from_directory(os.path.join(root_dir, app.config['UPLOAD_FOLDER']), filename)
+
+@app.route('/properties/<propertyid>', methods=['GET','POST'])
+def propertyid(propertyid):
+    property = db.session.query(Property).filter_by(id = propertyid).first()
+    print(str(property))
+    return render_template('property.html', property=property)
+
+def get_uploaded_images():
+    file_names = []
+    rootdir = os.getcwd()
+
+    for subdir, dirs, files in os.walk(rootdir + app.config['UPLOAD_FOLDER']):
+            for file in files:
+                filenames_lst = os.path.join(subdir,file)
+                file_names.append(os.path.basename(filenames_lst))
+    return file_names
+
 ###
 # The functions below should be applicable to all Flask apps.
 ###
