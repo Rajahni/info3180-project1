@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
 {% block main %}
-<form id="add-property-form" method="post" action="">
+<form id="add-property-form" method="POST" action="/properties/create" enctype="multipart/form-data">
     {% include 'flash_messages.html' %}
+    {{ form.csrf_token }}
     
     <div id="prgph-cntnr" class="container">
         <h1 style="text-align: center;">Add New Property</h1>

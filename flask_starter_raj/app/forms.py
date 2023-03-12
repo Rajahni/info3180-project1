@@ -18,7 +18,7 @@ class AddForm(FlaskForm):
 
     photo = FileField('Photo', validators=[FileRequired(),
             FileAllowed(['jpg', 'jpeg', 'png'], 'Images Only!')
-    ])
+            ])
     number_of_bathrooms = IntegerField('no. of Bathrooms', validators=[InputRequired()])
 
     property_type = SelectField('Property Type', choices=[('House', 'House'), ('Apartment', 'Apartment')])

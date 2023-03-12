@@ -6,7 +6,7 @@ This file contains the routes for your application.
 """
 
 import os
-from app import app
+from app import app, db
 from flask import render_template, request, redirect, send_from_directory, url_for, flash, session, abort
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.utils import secure_filename
@@ -60,10 +60,8 @@ def new_property():
 
             db.session.add(property)
             db.session.commit()
-            return redirect(url_for('properties'))
-    return render_template('new_property.html', form=addform)
-            
-    """Render the website's about page."""
+            flash('Property Added', 'success')
+            return redirect(url_for('home')) # to be updated to show properties
     return render_template('new_property.html', form=addform)
 
 @app.route('/properties/create/<filename>')
@@ -78,6 +76,7 @@ def propertyid(propertyid):
     return render_template('property.html', property=property)
 
 def get_uploaded_images():
+    uploads_folder = './uploads'
     file_names = []
     rootdir = os.getcwd()
 
