@@ -13,7 +13,6 @@ from werkzeug.utils import secure_filename
 from werkzeug.security import check_password_hash
 from app.forms import AddForm
 from app.models import Property
-from . import db
 
 ###
 # Routing for your application.
@@ -32,7 +31,7 @@ def about():
 
 @app.route('/properties')
 def properties():
-    properties = db.session.query(Property).all()
+    properties = db.session.execute(db.select(Property)).scalars()
     return render_template('properties.html', properties=properties)
 
 @app.route('/properties/create', methods=['POST', 'GET'])
@@ -48,14 +47,14 @@ def new_property():
             photo.save(os.path.join(file_folder, filename))
 
             property = Property(
-                addform.proptitle.data,
-                addform.description.data,
-                addform.number_of_rooms.data,
-                addform.price.data,
-                addform.location.data,
-                filename,
-                addform.number_of_bathrooms,
-                addform.property_type.data
+                proptitle=addform.proptitle.data,
+                description=addform.description.data,
+                number_of_rooms=addform.number_of_rooms.data,
+                price=addform.price.data,
+                location=addform.location.data,
+                photo=filename,
+                number_of_bathrooms=addform.number_of_bathrooms.data,
+                property_type=addform.property_type.data
             )
 
             db.session.add(property)
@@ -66,17 +65,16 @@ def new_property():
 
 @app.route('/properties/create/<filename>')
 def get_uploaded_file(filename):
-    root_dir = os.getcwd()
-    return send_from_directory(os.path.join(root_dir, app.config['UPLOAD_FOLDER']), filename)
+    # root_dir = os.getcwd()
+    return send_from_directory(os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER']), filename)
 
 @app.route('/properties/<propertyid>', methods=['GET','POST'])
 def propertyid(propertyid):
-    property = db.session.query(Property).filter_by(id = propertyid).first()
+    property = db.session.execute(db.select(Property)).filter_by(id=propertyid).scalar_one()
     print(str(property))
     return render_template('property.html', property=property)
 
 def get_uploaded_images():
-    uploads_folder = './uploads'
     file_names = []
     rootdir = os.getcwd()
 

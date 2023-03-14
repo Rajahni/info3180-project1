@@ -45,6 +45,8 @@ form {
     /* background: url('Mariana Souza Reis.jpeg') center / cover; */
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
+    overflow: hidden;
+    position: relative;
 }
 
 .card-body {
@@ -58,7 +60,8 @@ form {
 }
 
 .text-muted {
-    font-family: 'Source Sans Pro', sans-serif;color: #757575;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: #757575;
     font-weight: 600;
 }
 
@@ -87,4 +90,9 @@ form {
     margin-top: auto;
     box-shadow: 2px 2px 16px 1px rgba(117,117,117,0.8);
     text-align: center;
+}
+
+img {
+    max-width: 100%;
+    
 }

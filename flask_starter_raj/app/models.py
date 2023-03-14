@@ -5,7 +5,7 @@ class Property(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     proptitle = db.Column(db.String(100))
-    description = db.Column(db.String(2048))
+    description = db.Column(db.String(1024))
     number_of_rooms = db.Column(db.Integer)
     price = db.Column(db.Integer)
     location = db.Column(db.String(100))
@@ -22,3 +22,6 @@ class Property(db.Model):
         self.photo = photo
         self.number_of_bathrooms = number_of_bathrooms
         self.property_type = property_type
+
+    def __repr__(self):
+        return f'<Property {self.id}>'
