@@ -96,3 +96,11 @@ img {
     max-width: 100%;
     
 }
+
+.bed-bath p {
+    display: inline-block;
+}
+
+.card-subtitle {
+    margin-top: 5px;
+}

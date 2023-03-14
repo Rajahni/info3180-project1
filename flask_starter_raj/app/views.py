@@ -65,15 +65,15 @@ def new_property():
             return redirect(url_for('properties')) # to be updated to show properties
     return render_template('new_property.html', form=addform)
 
-@app.route('/properties/<filename>')
+@app.route('/properties/create/<filename>')
 def get_uploaded_file(filename):
     # root_dir = os.getcwd()
     return send_from_directory(os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER']), filename)
 
 @app.route('/properties/<propertyid>', methods=['GET','POST'])
 def propertyid(propertyid):
-    property = db.session.execute(db.select(Property).filter_by(id=propertyid)).scalar_one()
-    #print(str(property))
+    property = db.session.query(Property).filter_by(id = propertyid).first()
+    print(str(property))
     return render_template('property.html', property=property)
 
 def get_uploaded_images():
