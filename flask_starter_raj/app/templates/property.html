@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block main %}
+<div class="row" style="margin: 0px;padding: 20px;">
+    <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4" style="padding: 0px;">
+        <div style="background-image: url('mac.jpeg');height: 50vh;background-repeat: no-repeat;background-size: cover;background-position: center;">
+            <img src="{{ url_for('get_uploaded_file', filename = property.photo) }}"  alt="house photo">
+        </div>
+    </div>
+    <div class="w-100 d-sm-block d-md-none d-lg-none d-xl-none"></div>
+    <div class="col" style="padding: 0px;">
+        <div class="card">
+            <div class="card-body" style="height: 50vh;">
+                <h4 class="card-title">Title</h4>
+                <h6 class="text-muted card-subtitle mb-2">Subtitle</h6>
+                <p class="card-text">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p><a class="card-link" href="#">Link</a><a class="card-link" href="#">Link</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
